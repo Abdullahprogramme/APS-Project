@@ -13,8 +13,10 @@ def Cap_Or_NoCap(N):
         if ord(i) < 65 or ord(i) > 90: return False # checks if the character is not capital letter so returns False
     return True # if above statement fails it returns True
 
-def Question(N):
+def Question():
+    N = input("Enter the word")
     if (Palindrome(N)) and (Is_Length_Even(N)) and (Cap_Or_NoCap(N)) is True: return "You word is correct" 
     else: return "Your word is wrong"
-    
-print(Question("RACECAR"))
+
+
+#print(Question("RACECAR"))
