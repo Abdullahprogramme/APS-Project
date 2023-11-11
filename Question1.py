@@ -1,18 +1,18 @@
 import numpy as np
-matrix_a = np.array([[1, 2, 3],
+
+def enumerated_matrix():
+  matrix_a = np.array([[1, 2, 3],
                     [4, 5, 6],
                     [7, 8, 9]])
 
-matrix_b = np.array([[9, 8, 7],
-                    [6, 5, 4],
-                    [3, 2, 1]])
+  matrix_b = np.array([[9, 8, 7],
+                      [6, 5, 4],
+                      [3, 2, 1]])
 
-# enumerate method
-new_matrix = np.array([[0, 0, 0],
-                      [0, 0, 0],
-                      [0, 0, 0]])
-def enumerated_matrix():
-  global matrix_a, matrix_b, new_matrix # global arrays
+  # enumerate method
+  new_matrix = np.array([[0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0]])
   useranswer = input("Enter your answer here in the form xx yy zz.....: ") # user input
   a1, a2, a3, b1, b2, b3, c1, c2, c3 = useranswer.split(" ") 
   def matrix(matrix_a, matrix_b):
