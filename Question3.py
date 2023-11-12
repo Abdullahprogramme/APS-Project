@@ -1,6 +1,6 @@
 def Question3():
     N = int(input("Enter a number you chose: "))
-    number = input("Enter in format: xx yy zz and so on: " )
+    number = input("Enter all prime factors within that number in format: xx yy zz and so on: " )
     numbers = list(number.split())
     new = []
     count = 2
