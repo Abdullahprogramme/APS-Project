@@ -14,7 +14,7 @@ def Cap_Or_NoCap(N):
     return True # if above statement fails it returns True
 
 def Question():
-    N = input("Enter the word")
+    N = input("Enter the word which is palindrome, capitalized and Even")
     if (Palindrome(N)) and (Is_Length_Even(N)) and (Cap_Or_NoCap(N)) is True: return "You word is correct" 
     else: return "Your word is wrong"
 
