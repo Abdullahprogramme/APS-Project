@@ -1,5 +1,5 @@
 #this is a simple question where we give some list as a parameter; it will calculate the distance of the first two terms, then the third and fourth terms, and so on, and then sum them all.
-#if there are an odd number of elements in the list, then we need to sum up the even number and multiply it by the last term.
+#if there is an odd number of elements in the list, then we need to sum up the even number and multiply it by the last term.
 
 def distance_sum(lst):
     n = len(lst) 
