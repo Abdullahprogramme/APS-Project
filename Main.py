@@ -1,9 +1,4 @@
-# import tkinter as tk
-# # create the main window
-# window = tk.Tk()
-# window.title("Random Questionnaire")
-
-mport tkinter as tk
+import tkinter as tk
 from tkinter import messagebox
 import random
 import numpy as np
