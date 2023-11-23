@@ -4,7 +4,7 @@ import random
 import numpy as np
 
 questions = []
-
+score = 0
 
 def load_question():
     global current_question, attempts_left
@@ -13,13 +13,17 @@ def load_question():
         attempts_left = 3
         question_label.config(text=current_question['text'])
         answer_entry.delete(0, tk.END)
+        submit_button.config(state=tk.NORMAL)  # Enable the Submit button
     else:
         messagebox.showinfo("Questionnaire Completed", "You have completed the questionnaire.")
-        root.quit()
+        submit_button.config(state=tk.DISABLED)  # Disable the Submit button
+        #root.quit()
 
+def update_score(score):
+    score_label.config(text=f"Current Score: {score}")
 
 def evaluate_answer():
-    global current_question, attempts_left
+    global current_question, attempts_left, score
 
     try:
         answer = answer_entry.get()
@@ -28,6 +32,8 @@ def evaluate_answer():
         if result:
             messagebox.showinfo("Correct", "Your answer is correct!")
             questions.remove(current_question)
+            score += 1
+            update_score(score)
             load_question()
         else:
             attempts_left -= 1
@@ -46,7 +52,7 @@ def evaluate_answer():
 # Questions functions
 def Prime(answer):
     try:
-        number = answer
+        number = answer.strip()
         numbers = list(number.split())
         N, numbers = int(numbers[0]), numbers[1:]
         new = []
@@ -86,7 +92,7 @@ def enumerated_matrix(answer):
                         [0, 0, 0],
                         [0, 0, 0]])
   
-    a1, a2, a3, b1, b2, b3, c1, c2, c3 = map(int, answer.split())
+    a1, a2, a3, b1, b2, b3, c1, c2, c3 = map(int, answer.strip().split())
 
     # Check if the user's answer matches the result of matrix multiplication
     return np.array_equal(matrix(matrix_a, matrix_b, new_matrix), [[a1, a2, a3], [b1, b2, b3], [c1, c2, c3]])
@@ -107,7 +113,7 @@ def Cap_Or_NoCap(N):
     return True # if above statement fails it returns True
 
 def PalinCapital(answer):
-    N = answer
+    N = answer.strip()
     if (Palindrome(N)) and (Is_Length_Even(N)) and (Cap_Or_NoCap(N)) is True: return True
     else: return False
 
@@ -120,12 +126,54 @@ def Fibonacci_helper(N):
             return lst
             
 def Fibonacci(answer):
-    N = int(answer[0])
+    N = int(answer.strip()[0])
     userAnswer = answer[1:].strip()
     userList = [int(i) for i in userAnswer.split(" ")] # making a list of all integers the user provided
     if Fibonacci_helper(N) == userList: return True # if comparision true 
     else: return False # if comparision false
 
+def numbers_to_words(answer):
+    n = [1, 20, 8, 5, 0, 19, 9, 26, 30, -5]
+    resul = ""
+    for number in n:
+        if number == 0:
+            resul += " "  # space if the number is zero
+        elif 1 <= number <= 26:
+            resul += chr(ord('a') + number - 1)  # this line will convert to alphabet letter
+        # else:
+        #     if number < 0:
+        #         result += "!"
+        #     elif number > 26: 
+        #         result += "?"  # We will Use! for negative and ? for if greater than 26
+             
+    return resul == answer
+
+def distance_sum(answer):
+    lst = [1,2,3,4]
+    n = len(lst) 
+    if n % 2 == 1:
+        last_element = lst[-1]
+        n -= 1
+    else:
+        last_element = 1
+    
+    distance_sum = 0
+    for i in range(0, n, 2):
+        distance_sum += abs(lst[i] - lst[i + 1])
+    
+    result = distance_sum * last_element
+    return result == int(answer)
+
+def find_factorial_helper(factorial_value, current = 1, factorial = 1):
+    if factorial == factorial_value:
+        return current
+    else:
+        return find_factorial_helper(factorial_value, current + 1, factorial * (current + 1))
+
+def find_factorial(answer):
+    factorial_value = 24
+    return find_factorial_helper(factorial_value) == int(answer)
+    
 # the Question functions end here
 # .......................................................................................................................
 
@@ -143,40 +191,47 @@ questions = [
                          [3, 2, 1]]
         Enter your answer here in the form xx yy zz.....''',
      'check_answer': enumerated_matrix},
-    {'text': "Enter the word which is palindrome, capitalized and Even", 'check_answer': PalinCapital},
-    {'text': "Enter a number N in range (1 - 10) \n and provide it's sequence of Fibonacci number \n to the Nth index in form xx yy zz....",
-     'check_answer': Fibonacci}
+    {'text': "Enter a word which is palindrome, capitalized and odd in length", 'check_answer': PalinCapital},
+    {'text': "Enter a number 'N' in range (1 - 10) \n and provide it's sequence of Fibonacci number \n to the Nth index in form xx yy zz....",
+     'check_answer': Fibonacci},
+    {'text': '''Decode the following numbers into a word
+                 [1, 20, 8, 5, 0, 19, 9, 26, 30, -5]
+                 numbers 1 to 26 represent a digit''', 'check_answer': numbers_to_words},
+    {'text': ''' IF ODD Lengthed, Find difference of all even placed numbers and 
+                 odd placed numbers and multiply with last number 
+                                  else 
+                 Find difference of all even placed numbers and odd 
+                 placed numbers. numbers = [1,2,3,4]''', 'check_answer': distance_sum},
+    {'text': "Give the number which's factorial 24 is", 'check_answer': find_factorial}
 ]
 
-questions = [
-    {'text': "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in format: a xx yy zz and so on",
-     'check_answer': Prime},
-    {'text': '''  What is [[1, 2, 3]
-                         [4, 5, 6]
-                         [7, 8, 9]]
-                            *
-                        [[9, 8, 7]
-                         [6, 5, 4]
-                         [3, 2, 1]]
-        Enter your answer here in the form xx yy zz.....''',
-     'check_answer': enumerated_matrix},
-    {'text': "Enter the word which is palindrome, capitalized and Even", 'check_answer': PalinCapital},
-    {'text': "Enter a number N in range (1 - 10) \n and provide it's sequence of Fibonacci number \n to the Nth index in form xx yy zz....",
-     'check_answer': Fibonacci}
-]
+def show_welcome_message():
+    question_label.config(text="Welcome to the Python Questionnaire!")
+    root.after(10000, clear_welcome_message)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
+
+def clear_welcome_message():
+    question_label.config(text="")  # Clear the label text
+
 # GUI initialization
 root = tk.Tk()
 root.title("Questionnaire App")
-root.geometry("600x400")
+root.geometry("600x450")
 root.configure(bg="lightgray")
 
 # Main Frame
 main_frame = tk.Frame(root, bg="lightgray")
 main_frame.pack(expand=True, fill="both")
 
+# Score Frame
+score_frame = tk.Frame(main_frame, bg="purple", bd=5)
+score_frame.place(relx=0.5, rely=0, relwidth=0.8, relheight=0.1, anchor="n")
+
+score_label = tk.Label(score_frame, text="Current Score: 0", font=("Helvetica", 12), bg="lightgreen")
+score_label.place(relwidth=1, relheight=1)
+
 # Question Frame
 question_frame = tk.Frame(main_frame, bg="teal", bd=5)
-question_frame.place(relx=0.5, rely=0.1, relwidth=0.8, relheight=0.4, anchor="n")
+question_frame.place(relx=0.5, rely=0.15, relwidth=0.8, relheight=0.4, anchor="n")
 
 question_label = tk.Label(question_frame, text="", font=("Helvetica", 12), bg="lightgreen")
 question_label.place(relwidth=1, relheight=1)
@@ -192,6 +247,7 @@ submit_button = tk.Button(answer_frame, text="Submit", command=evaluate_answer, 
 submit_button.place(relx=0.7, relwidth=0.3, relheight=1)
 
 # Load the initial question
+#show_welcome_message()
 load_question()
 
 root.mainloop()
