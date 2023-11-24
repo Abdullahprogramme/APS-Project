@@ -4,12 +4,13 @@ import random
 import numpy as np
 
 questions = []
+ActualQuestions = []
 score = 0
 
 def load_question():
     global current_question, attempts_left
-    if questions:
-        current_question = random.choice(questions)
+    if ActualQuestions:
+        current_question = random.choice(ActualQuestions)
         attempts_left = 3
         question_label.config(text=current_question['text'])
         answer_entry.delete(0, tk.END)
@@ -31,7 +32,7 @@ def evaluate_answer():
 
         if result:
             messagebox.showinfo("Correct", "Your answer is correct!")
-            questions.remove(current_question)
+            ActualQuestions.remove(current_question)
             score += 1
             update_score(score)
             load_question()
@@ -41,7 +42,7 @@ def evaluate_answer():
                 messagebox.showwarning("Incorrect", f"Your answer is incorrect. {attempts_left} attempts left.")
             else:
                 messagebox.showerror("Out of Attempts", "You have run out of attempts. Moving to the next question.")
-                questions.remove(current_question)
+                ActualQuestions.remove(current_question)
                 load_question()
             answer_entry.delete(0, tk.END)
 
@@ -194,17 +195,16 @@ questions = [
     {'text': "Enter a word which is palindrome, capitalized and odd in length", 'check_answer': PalinCapital},
     {'text': "Enter a number 'N' in range (1 - 10) \n and provide it's sequence of Fibonacci number \n to the Nth index in form xx yy zz....",
      'check_answer': Fibonacci},
-    {'text': '''Decode the following numbers into a word
-                 [1, 20, 8, 5, 0, 19, 9, 26, 30, -5]
-                 numbers 1 to 26 represent a digit''', 'check_answer': numbers_to_words},
-    {'text': ''' IF ODD Lengthed, Find difference of all even placed numbers and 
-                 odd placed numbers and multiply with last number 
-                                  else 
-                 Find difference of all even placed numbers and odd 
-                 placed numbers. numbers = [1,2,3,4]''', 'check_answer': distance_sum},
+    {'text': "Decode the following numbers into a word\n[1, 20, 8, 5, 0, 19, 9, 26]\nnumbers 1 to 26 represent a digit", 'check_answer': numbers_to_words},
+    {'text': "IF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers. numbers = [1,2,3,4]", 'check_answer': distance_sum},
     {'text': "Give the number which's factorial 24 is", 'check_answer': find_factorial}
 ]
-
+# making a 5 question list to be used in the questionnaire out of a bigger pool
+for i in range(5):
+    temp = random.choice(questions)
+    ActualQuestions.append(temp)
+    questions.remove(temp)
+print(len(ActualQuestions))
 def show_welcome_message():
     question_label.config(text="Welcome to the Python Questionnaire!")
     root.after(10000, clear_welcome_message)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
