@@ -1,7 +1,7 @@
 # APS-Project
 Algorithmic Problem Solving Project.
-  We made a Python Questionnaire using Tkinter and Numpy and random.
-  Team members:
+We made a Python Questionnaire using Tkinter and Numpy and random.
+Team members:
   1. Abdullah Tariq
   2. Ahla Haider
   3. Aitzaz Rahim
