@@ -1,14 +1,23 @@
+# importing of libraries
 import tkinter as tk
 from tkinter import messagebox
 import random
 import numpy as np
 
+# declaration of any variable or lists used
 questions = []
 ActualQuestions = []
 score = 0
+Final = 1
+Final_Text = "Results:\n"
+num_to_words_list = random.sample(range(1, 27), 10)
+distance_sum_list = random.sample(range(1, 11), 6)
+factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320])
+matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
+print(num_to_words_list, distance_sum_list, factorial_val, matrix_list)
 
 def load_question():
-    global current_question, attempts_left
+    global current_question, attempts_left, Final_Text, Final
     if ActualQuestions:
         current_question = random.choice(ActualQuestions)
         attempts_left = 3
@@ -18,13 +27,14 @@ def load_question():
     else:
         messagebox.showinfo("Questionnaire Completed", "You have completed the questionnaire.")
         submit_button.config(state=tk.DISABLED)  # Disable the Submit button
+        question_label.config(text=Final_Text.strip())
         #root.quit()
 
 def update_score(score):
     score_label.config(text=f"Current Score: {score}")
 
 def evaluate_answer():
-    global current_question, attempts_left, score
+    global current_question, attempts_left, score, Final, Final_Text
 
     try:
         answer = answer_entry.get()
@@ -35,6 +45,8 @@ def evaluate_answer():
             ActualQuestions.remove(current_question)
             score += 1
             update_score(score)
+            Final_Text += f"Question {Final} was correct\n"
+            Final += 1
             load_question()
         else:
             attempts_left -= 1
@@ -43,6 +55,8 @@ def evaluate_answer():
             else:
                 messagebox.showerror("Out of Attempts", "You have run out of attempts. Moving to the next question.")
                 ActualQuestions.remove(current_question)
+                Final_Text += f"Question {Final} was incorrect\n"
+                Final += 1
                 load_question()
             answer_entry.delete(0, tk.END)
 
@@ -141,12 +155,6 @@ def numbers_to_words(answer):
             resul += " "  # space if the number is zero
         elif 1 <= number <= 26:
             resul += chr(ord('a') + number - 1)  # this line will convert to alphabet letter
-        # else:
-        #     if number < 0:
-        #         result += "!"
-        #     elif number > 26: 
-        #         result += "?"  # We will Use! for negative and ? for if greater than 26
-             
     return resul == answer
 
 def distance_sum(answer):
@@ -193,7 +201,7 @@ questions = [
         Enter your answer here in the form xx yy zz.....''',
      'check_answer': enumerated_matrix},
     {'text': "Enter a word which is palindrome, capitalized and odd in length", 'check_answer': PalinCapital},
-    {'text': "Enter a number 'N' in range (1 - 10) \n and provide it's sequence of Fibonacci number \n to the Nth index in form xx yy zz....",
+    {'text': "Enter a number 'N' in range (1 - 10)\nand provide it's sequence of Fibonacci number\nto the Nth index in form xx yy zz....",
      'check_answer': Fibonacci},
     {'text': "Decode the following numbers into a word\n[1, 20, 8, 5, 0, 19, 9, 26]\nnumbers 1 to 26 represent a digit", 'check_answer': numbers_to_words},
     {'text': "IF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers. numbers = [1,2,3,4]", 'check_answer': distance_sum},
@@ -204,7 +212,7 @@ for i in range(5):
     temp = random.choice(questions)
     ActualQuestions.append(temp)
     questions.remove(temp)
-print(len(ActualQuestions))
+
 def show_welcome_message():
     question_label.config(text="Welcome to the Python Questionnaire!")
     root.after(10000, clear_welcome_message)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
