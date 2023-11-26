@@ -1,4 +1,6 @@
-s = str(input("s="))
+#in this question the user will input a sentence s or paragraph s without spaces and i will have to count how many words are in it. each new letter will be distinguishes
+by a capital letter
+s = str(input("s= enter a sentence/paragraph without spaces and each new word should start with a capital letter"))
 count = 1
 for i in s:
     if i.isupper():
