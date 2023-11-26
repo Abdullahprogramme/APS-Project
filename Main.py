@@ -17,7 +17,7 @@ matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
 print(num_to_words_list, distance_sum_list, factorial_val, matrix_list)
 
 def load_question():
-    global current_question, attempts_left, Final_Text, Final
+    global current_question, attempts_left
     if ActualQuestions:
         current_question = random.choice(ActualQuestions)
         attempts_left = 3
@@ -38,7 +38,16 @@ def evaluate_answer():
 
     try:
         answer = answer_entry.get()
-        result = current_question['check_answer'](answer)
+        if current_question['check_answer'] == numbers_to_words:
+            result = current_question['check_answer'](answer, num_to_words_list)
+        elif current_question['check_answer'] == distance_sum:
+            result = current_question['check_answer'](answer, distance_sum_list)
+        elif current_question['check_answer'] == find_factorial:
+            result = current_question['check_answer'](answer, factorial_val)
+        elif current_question['check_answer'] == enumerated_matrix:
+            result = current_question['check_answer'](answer, matrix_list)
+        else: result = current_question['check_answer'](answer)
+        
 
         if result:
             messagebox.showinfo("Correct", "Your answer is correct!")
@@ -70,6 +79,7 @@ def Prime(answer):
         number = answer.strip()
         numbers = list(number.split())
         N, numbers = int(numbers[0]), numbers[1:]
+        if numbers == []: return False
         new = []
         count = 2
         for i in range(2, N):  # loop through 2 to N
@@ -93,10 +103,8 @@ def matrix(matrix_a, matrix_b, new_matrix):
     return new_matrix
 
     
-def enumerated_matrix(answer):
-    matrix_a = np.array([[1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 9]])
+def enumerated_matrix(answer, matrix_list):
+    matrix_a = matrix_list
 
     matrix_b = np.array([[9, 8, 7],
                       [6, 5, 4],
@@ -147,8 +155,8 @@ def Fibonacci(answer):
     if Fibonacci_helper(N) == userList: return True # if comparision true 
     else: return False # if comparision false
 
-def numbers_to_words(answer):
-    n = [1, 20, 8, 5, 0, 19, 9, 26, 30, -5]
+def numbers_to_words(answer, num_to_words_list):
+    n = num_to_words_list
     resul = ""
     for number in n:
         if number == 0:
@@ -157,8 +165,8 @@ def numbers_to_words(answer):
             resul += chr(ord('a') + number - 1)  # this line will convert to alphabet letter
     return resul == answer
 
-def distance_sum(answer):
-    lst = [1,2,3,4]
+def distance_sum(answer, distance_list):
+    lst = distance_list
     n = len(lst) 
     if n % 2 == 1:
         last_element = lst[-1]
@@ -179,8 +187,8 @@ def find_factorial_helper(factorial_value, current = 1, factorial = 1):
     else:
         return find_factorial_helper(factorial_value, current + 1, factorial * (current + 1))
 
-def find_factorial(answer):
-    factorial_value = 24
+def find_factorial(answer, factorial_val):
+    factorial_value = factorial_val
     return find_factorial_helper(factorial_value) == int(answer)
     
 # the Question functions end here
@@ -188,24 +196,24 @@ def find_factorial(answer):
 
 # questions list
 # contains all the questions and their functions in a dictionary
+text1 = str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer here in the form xx yy zz....."
+text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
+text3 = "IF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers. numbers = " + str(distance_sum_list)
+text4 = "Give the number which's factorial " + str(factorial_val) + " is"
+print(text1)
+print(text2)
+print(text3)
+print(text4)
 questions = [
     {'text': "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in format: a xx yy zz and so on",
      'check_answer': Prime},
-    {'text': '''  What is [[1, 2, 3]
-                         [4, 5, 6]
-                         [7, 8, 9]]
-                            *
-                        [[9, 8, 7]
-                         [6, 5, 4]
-                         [3, 2, 1]]
-        Enter your answer here in the form xx yy zz.....''',
-     'check_answer': enumerated_matrix},
+    {'text': text1, 'check_answer': enumerated_matrix},
     {'text': "Enter a word which is palindrome, capitalized and odd in length", 'check_answer': PalinCapital},
     {'text': "Enter a number 'N' in range (1 - 10)\nand provide it's sequence of Fibonacci number\nto the Nth index in form xx yy zz....",
      'check_answer': Fibonacci},
-    {'text': "Decode the following numbers into a word\n[1, 20, 8, 5, 0, 19, 9, 26]\nnumbers 1 to 26 represent a digit", 'check_answer': numbers_to_words},
-    {'text': "IF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers. numbers = [1,2,3,4]", 'check_answer': distance_sum},
-    {'text': "Give the number which's factorial 24 is", 'check_answer': find_factorial}
+    {'text': text2, 'check_answer': numbers_to_words},
+    {'text': text3, 'check_answer': distance_sum},
+    {'text': text4, 'check_answer': find_factorial}
 ]
 # making a 5 question list to be used in the questionnaire out of a bigger pool
 for i in range(5):
