@@ -1,21 +1,18 @@
 country = "canada"
 def hangman():
-    wrong = 5
+    hint = "starts with c"
     guess = ""
+    print("Guess the country letter by letter")
     for i in range(len(country)):
-        tryy = input("Guess the country letter by letter: ")
+        tryy = input("")
 
         if i < len(country) and tryy != country[i]:
-            wrong -= 1
-            print(f"Wrong. You are left with {wrong} tries")
+            print(f"Wrong")
         else:
             guess += tryy
-            print(guess)
+            print(f"guess: {guess}")
     
         if guess == country:
             print("Congratulations! You guessed it right !!.")
-            return
-        if wrong == 0:
-            print(f"The correct country was {country}.")
             return
 hangman()
