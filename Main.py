@@ -181,14 +181,14 @@ def distance_sum(answer, distance_list):
     return result == int(answer)
 
 def find_factorial_helper(factorial_value, current = 1, factorial = 1):
-    if factorial == factorial_value:
+    if factorial == factorial_value: # base case
         return current
     else:
-        return find_factorial_helper(factorial_value, current + 1, factorial * (current + 1))
+        return find_factorial_helper(factorial_value, current + 1, factorial * (current + 1)) # recursive case
 
 def find_factorial(answer, factorial_val):
     factorial_value = factorial_val
-    return find_factorial_helper(factorial_value) == int(answer)
+    return find_factorial_helper(factorial_value) == int(answer) # comparision
     
 # the Question functions end here
 # .......................................................................................................................
@@ -219,10 +219,8 @@ for i in range(5):
 
 def show_welcome_message():
     question_label.config(text="Welcome to the Python Questionnaire!")
-    root.after(10000, clear_welcome_message)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
+    root.after(5000, load_question)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
 
-def clear_welcome_message():
-    question_label.config(text="")  # Clear the label text
 
 # GUI initialization
 root = tk.Tk()
@@ -259,7 +257,7 @@ submit_button = tk.Button(answer_frame, text="Submit", command=evaluate_answer, 
 submit_button.place(relx=0.7, relwidth=0.3, relheight=1)
 
 # Load the initial question
-#show_welcome_message()
-load_question()
+# first show the welcome message
+show_welcome_message()
 
 root.mainloop()
