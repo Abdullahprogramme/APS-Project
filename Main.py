@@ -14,7 +14,6 @@ num_to_words_list = random.sample(range(1, 27), 10)
 distance_sum_list = random.sample(range(1, 11), 6)
 factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320])
 matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
-print(num_to_words_list, distance_sum_list, factorial_val, matrix_list)
 
 def load_question():
     global current_question, attempts_left
@@ -200,10 +199,7 @@ text1 = str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnte
 text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
 text3 = "IF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers. numbers = " + str(distance_sum_list)
 text4 = "Give the number which's factorial " + str(factorial_val) + " is"
-print(text1)
-print(text2)
-print(text3)
-print(text4)
+
 questions = [
     {'text': "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in format: a xx yy zz and so on",
      'check_answer': Prime},
