@@ -171,7 +171,7 @@ def numbers_to_words(answer, num_to_words_list):
         elif 1 <= number <= 26:
             resul += chr(ord('a') + number - 1)  # this line will convert to alphabet letter
     return resul == answer.lower()
-09
+
 def distance_sum(answer, distance_list):
     lst = distance_list
     n = len(lst) 
