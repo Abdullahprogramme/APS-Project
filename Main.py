@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 import numpy as np
+from pygame import mixer
 
 # declaration of any variable or lists used
 questions = []
@@ -32,6 +33,10 @@ def load_question():
 def update_score(score):
     score_label.config(text=f"Current Score: {score}")
 
+def music_loader(music_file):
+    mixer.music.load(music_file)
+    mixer.music.play()
+
 def evaluate_answer():
     global current_question, attempts_left, score, Final, Final_Text
 
@@ -49,6 +54,7 @@ def evaluate_answer():
         
 
         if result:
+            music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\correct-choice-43861.mp3")
             messagebox.showinfo("Correct", "Your answer is correct!")
             ActualQuestions.remove(current_question)
             score += 1
@@ -59,8 +65,10 @@ def evaluate_answer():
         else:
             attempts_left -= 1
             if attempts_left > 0:
+                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\failure-drum-sound-effect-2-7184.mp3")
                 messagebox.showwarning("Incorrect", f"Your answer is incorrect. {attempts_left} attempts left.")
             else:
+                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\failure-drum-sound-effect-2-7184.mp3")
                 messagebox.showerror("Out of Attempts", "You have run out of attempts. Moving to the next question.")
                 ActualQuestions.remove(current_question)
                 Final_Text += f"Question {Final} was incorrect\n"
@@ -162,8 +170,8 @@ def numbers_to_words(answer, num_to_words_list):
             resul += " "  # space if the number is zero
         elif 1 <= number <= 26:
             resul += chr(ord('a') + number - 1)  # this line will convert to alphabet letter
-    return resul == answer
-
+    return resul == answer.lower()
+09
 def distance_sum(answer, distance_list):
     lst = distance_list
     n = len(lst) 
@@ -218,6 +226,7 @@ for i in range(5):
     questions.remove(temp)
 
 def show_welcome_message():
+    music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3")
     question_label.config(text="Welcome to the Python Questionnaire!")
     root.after(5000, load_question)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
 
@@ -258,6 +267,7 @@ submit_button.place(relx=0.7, relwidth=0.3, relheight=1)
 
 # Load the initial question
 # first show the welcome message
+mixer.init()
 show_welcome_message()
 
 root.mainloop()
