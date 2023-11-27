@@ -175,15 +175,15 @@ def numbers_to_words(answer, num_to_words_list):
 def distance_sum(answer, distance_list):
     lst = distance_list
     n = len(lst) 
-    if n % 2 == 1:
-        last_element = lst[-1]
+    if n % 2 == 1: # check for length to be odd
+        last_element = lst[-1] # fetch last character
         n -= 1
     else:
-        last_element = 1
+        last_element = 1 # 1 in-case if length even
     
     distance_sum = 0
     for i in range(0, n, 2):
-        distance_sum += abs(lst[i] - lst[i + 1])
+        distance_sum += abs(lst[i] - lst[i + 1]) # add absolute difference
     
     result = distance_sum * last_element
     return result == int(answer)
@@ -203,7 +203,7 @@ def find_factorial(answer, factorial_val):
 
 # questions list
 # contains all the questions and their functions in a dictionary
-text1 = str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer here in the form xx yy zz....."
+text1 = "MATRIX MULTIPLICATION\n" + str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer in the form xx yy zz....."
 text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
 text3 = "IF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers. numbers = " + str(distance_sum_list)
 text4 = "Give the number which's factorial " + str(factorial_val) + " is"
