@@ -11,8 +11,8 @@ ActualQuestions = []
 score = 0
 Final = 1
 Final_Text = "Results:\n"
-num_to_words_list = random.sample(range(1, 27), 10)
-distance_sum_list = random.sample(range(1, 11), 6)
+num_to_words_list = random.sample(range(0, 27), 10)
+distance_sum_list = random.sample(range(1, 11), random.randint(6, 7))
 factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320])
 matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
 
@@ -54,7 +54,7 @@ def evaluate_answer():
         
 
         if result:
-            music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\correct-choice-43861.mp3")
+            music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\correct-156911.mp3")
             messagebox.showinfo("Correct", "Your answer is correct!")
             ActualQuestions.remove(current_question)
             score += 1
@@ -68,7 +68,7 @@ def evaluate_answer():
                 music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\failure-drum-sound-effect-2-7184.mp3")
                 messagebox.showwarning("Incorrect", f"Your answer is incorrect. {attempts_left} attempts left.")
             else:
-                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\failure-drum-sound-effect-2-7184.mp3")
+                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\fiasco-154915.mp3")
                 messagebox.showerror("Out of Attempts", "You have run out of attempts. Moving to the next question.")
                 ActualQuestions.remove(current_question)
                 Final_Text += f"Question {Final} was incorrect\n"
@@ -85,7 +85,7 @@ def Prime(answer):
     try:
         number = answer.strip()
         numbers = list(number.split())
-        N, numbers = int(numbers[0]), numbers[1:]
+        N, numbers = int(numbers[0]), numbers[1:] 
         if numbers == []: return False
         new = []
         count = 2
@@ -213,7 +213,7 @@ questions = [
      'check_answer': Prime},
     {'text': text1, 'check_answer': enumerated_matrix},
     {'text': "Enter a word which is palindrome, capitalized and odd in length", 'check_answer': PalinCapital},
-    {'text': "Enter a number 'N' in range (1 - 10)\nand provide it's sequence of Fibonacci number\nto the Nth index in form xx yy zz....",
+    {'text': "Enter a number 'N' in range (1 - 10)\nand provide it's sequence of Fibonacci number\nto the Nth index in form N xx yy zz....",
      'check_answer': Fibonacci},
     {'text': text2, 'check_answer': numbers_to_words},
     {'text': text3, 'check_answer': distance_sum},
@@ -228,7 +228,7 @@ for i in range(5):
 def show_welcome_message():
     music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3")
     question_label.config(text="Welcome to the Python Questionnaire!")
-    root.after(5000, load_question)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
+    root.after(3000, load_question)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
 
 
 # GUI initialization
