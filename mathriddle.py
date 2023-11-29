@@ -19,6 +19,6 @@ correct_answer = math_riddle()
 # Check user's answer
 if userguess == correct_answer:
     print("Congratulations! Your answer is correct.")
-else:
+#else:
     #print(f"Sorry, the correct answer is {correct_answer}.")
 
