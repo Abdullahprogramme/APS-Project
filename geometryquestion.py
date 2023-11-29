@@ -18,5 +18,5 @@ question, correct_answer = geometry_question()
 user_answer = float(input("Enter your answer: "))
 if user_answer == correct_answer:
     print("Congratulations! Your answer is correct.")
-else:
+#else:
     #print(f"Sorry, the correct answer is {correct_answer}.")
