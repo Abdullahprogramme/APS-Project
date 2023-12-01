@@ -52,7 +52,7 @@ def evaluate_answer():
             result = current_question['check_answer'](answer, matrix_list)
         else: result = current_question['check_answer'](answer)
         
-
+        
         if result:
             music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\correct-156911.mp3")
             messagebox.showinfo("Correct", "Your answer is correct!")
@@ -123,7 +123,7 @@ def enumerated_matrix(answer, matrix_list):
                         [0, 0, 0]])
   
     a1, a2, a3, b1, b2, b3, c1, c2, c3 = map(int, answer.strip().split())
-
+    
     # Check if the user's answer matches the result of matrix multiplication
     return np.array_equal(matrix(matrix_a, matrix_b, new_matrix), [[a1, a2, a3], [b1, b2, b3], [c1, c2, c3]])
 
@@ -205,7 +205,7 @@ def find_factorial(answer, factorial_val):
 # contains all the questions and their functions in a dictionary
 text1 = "MATRIX MULTIPLICATION\n" + str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer in the form xx yy zz....."
 text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
-text3 = "IF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers. numbers = " + str(distance_sum_list)
+text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers."
 text4 = "Give the number which's factorial " + str(factorial_val) + " is"
 
 questions = [
@@ -219,6 +219,7 @@ questions = [
     {'text': text3, 'check_answer': distance_sum},
     {'text': text4, 'check_answer': find_factorial}
 ]
+
 # making a 5 question list to be used in the questionnaire out of a bigger pool
 for i in range(5):
     temp = random.choice(questions)
@@ -228,7 +229,7 @@ for i in range(5):
 def show_welcome_message():
     music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3")
     question_label.config(text="Welcome to the Python Questionnaire!")
-    root.after(3000, load_question)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
+    root.after(5000, load_question)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
 
 
 # GUI initialization
@@ -267,7 +268,7 @@ submit_button.place(relx=0.7, relwidth=0.3, relheight=1)
 
 # Load the initial question
 # first show the welcome message
-mixer.init()
+mixer.init() # music initilizer
 show_welcome_message()
 
-root.mainloop()
+root.mainloop() # the main loop iterator
