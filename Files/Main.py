@@ -227,17 +227,13 @@ def find_powers(answer, number):
 
 def geometry_question(answer, base, height):
     number = float(answer)
-    # Calculate area of the triangle
-    correct_answer = 0.5 * base * height
-    # Display the question
-    return number == correct_answer
+    correct_answer = 0.5 * base * height # Calculate area of the triangle
+    return number == correct_answer # comparision
 
 def algebric_question(answer, a ,b ,c):
     number = float(answer)
-    # Generate random values for the equation ax + b = c
-    question = f"Solve for x: {a}x + {b} = {c}"
-    correct_answer = (c - b) / a
-    return number == correct_answer
+    correct_answer = (c - b) / a # solving for x
+    return number == round(correct_answer, 1) # comparision
 
 def math_riddle(answer):
     correct_answer = int(answer)
@@ -249,11 +245,11 @@ def math_riddle(answer):
         hundreds_digit = number // 100
         # Checking the conditions
         if tens_digit == ones_digit + 5 and hundreds_digit == tens_digit - 8:
-            lst.append(number)
-    return correct_answer in lst
+            lst.append(number) # append to list if conditions are met True
+    return correct_answer in lst # comparision
 
 # the Question functions end here
-# .......................................................................................................................
+# ....................................................................................................................... #
 
 # questions list
 # contains all the questions and their functions in a dictionary
@@ -262,7 +258,7 @@ text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + 
 text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers."
 text4 = "Give the number whose factorial " + str(factorial_val) + " is"
 text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format:\n(base, exponent)"
-text6  = f"Find the area of a triangle with\nbase {base} units and height {height} units.\nGive answer in floating point\nexample: 3.0"
+text6  = f"Find the area of a triangle with\nbase {base} units and height {height} units.\nGive answer in floating point\nexample: 3.0 rounded to 1 decimal place"
 text7 = "I am a three-digit number.\n My tens digit is five more than my ones digit\n and hundreds digit is eight less\n than my tens digit What number am I?"
 
 questions = [
@@ -277,7 +273,7 @@ questions = [
     {'text': text4, 'check_answer': find_factorial},
     {'text': text5, 'check_answer': find_powers},
     {'text': text6, 'check_answer': geometry_question},
-    {'text': f"Solve for x: {a}x + {b} = {c}\n Give answer in foating point\nexample: 3.0", 'check_answer': algebric_question},
+    {'text': f"Solve for x:\n{a}x + {b} = {c}\n Give answer in foating point\nexample: 3.0 rounded to 1 decimal place", 'check_answer': algebric_question},
     {'text': text7, 'check_answer': math_riddle}
 ]
 
@@ -290,7 +286,7 @@ for i in range(5):
 def show_welcome_message():
     music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3")
     question_label.config(text="Welcome to the Python Questionnaire!")
-    root.after(5000, load_question)  # Schedule the clear_welcome_message function after 5000 milliseconds (5 seconds)
+    root.after(5000, load_question)  # Schedule the load_question function after 5000 milliseconds (5 seconds)
 
 
 # GUI initialization
@@ -314,14 +310,14 @@ score_label.place(relwidth=1, relheight=1)
 question_frame = tk.Frame(main_frame, bg="teal", bd=5)
 question_frame.place(relx=0.5, rely=0.15, relwidth=0.8, relheight=0.4, anchor="n")
 
-question_label = tk.Label(question_frame, text="", font=("Helvetica", 12), bg="lightgreen")
+question_label = tk.Label(question_frame, text="", font=("Helvetica", 12), fg="darkblue", bg="lightgreen")
 question_label.place(relwidth=1, relheight=1)
 
 # Answer Frame
 answer_frame = tk.Frame(main_frame, bg="orange", bd=5)
 answer_frame.place(relx=0.5, rely=0.6, relwidth=0.8, relheight=0.1, anchor="n")
 
-answer_entry = tk.Entry(answer_frame, bg="lightblue", font=("Helvetica", 12))
+answer_entry = tk.Entry(answer_frame, bg="lightblue", fg="darkblue", font=("Helvetica", 12))
 answer_entry.place(relwidth=0.7, relheight=1)
 
 submit_button = tk.Button(answer_frame, text="Submit", command=evaluate_answer, bg="gray", font=("Helvetica", 12))
@@ -330,6 +326,6 @@ submit_button.place(relx=0.7, relwidth=0.3, relheight=1)
 # Load the initial question
 # first show the welcome message
 mixer.init() # music initilizer
-show_welcome_message()
+show_welcome_message() # welcome message shower
 
 root.mainloop() # the main loop iterator
