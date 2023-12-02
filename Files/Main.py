@@ -16,6 +16,11 @@ distance_sum_list = random.sample(range(1, 11), random.randint(6, 7))
 factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320])
 matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
 find_powers_val = random.choice([4, 8, 9, 27, 32, 16])
+base = random.randint(5, 15)
+height = random.randint(3, 10)
+a = random.randint(2, 5)
+b = random.randint(1, 20)
+c = random.randint(6, 10)
 
 def load_question():
     global current_question, attempts_left
@@ -53,6 +58,10 @@ def evaluate_answer():
             result = current_question['check_answer'](answer, matrix_list)
         elif current_question['check_answer'] == find_powers:
             result = current_question['check_answer'](answer, find_powers_val)
+        elif current_question['check_answer'] == geometry_question:
+            result = current_question['check_answer'](answer, base, height)
+        elif current_question['check_answer'] == algebric_question:
+            result = current_question['check_answer'](answer, a, b, c)
         else: result = current_question['check_answer'](answer)
         
         
@@ -216,6 +225,33 @@ def find_powers(answer, number):
             exponent += 1
     return (b, e) in power_representations
 
+def geometry_question(answer, base, height):
+    number = float(answer)
+    # Calculate area of the triangle
+    correct_answer = 0.5 * base * height
+    # Display the question
+    return number == correct_answer
+
+def algebric_question(answer, a ,b ,c):
+    number = float(answer)
+    # Generate random values for the equation ax + b = c
+    question = f"Solve for x: {a}x + {b} = {c}"
+    correct_answer = (c - b) / a
+    return number == correct_answer
+
+def math_riddle(answer):
+    correct_answer = int(answer)
+    lst = []
+    for number in range(100, 1000):
+        # Extracting digits
+        ones_digit = number % 10
+        tens_digit = (number // 10) % 10
+        hundreds_digit = number // 100
+        # Checking the conditions
+        if tens_digit == ones_digit + 5 and hundreds_digit == tens_digit - 8:
+            lst.append(number)
+    return correct_answer in lst
+
 # the Question functions end here
 # .......................................................................................................................
 
@@ -226,6 +262,8 @@ text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + 
 text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers."
 text4 = "Give the number whose factorial " + str(factorial_val) + " is"
 text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format:\n(base, exponent)"
+text6  = f"Find the area of a triangle with\nbase {base} units and height {height} units.\nGive answer in floating point\nexample: 3.0"
+text7 = "I am a three-digit number.\n My tens digit is five more than my ones digit\n and hundreds digit is eight less\n than my tens digit What number am I?"
 
 questions = [
     {'text': "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in format: a xx yy zz and so on",
@@ -237,7 +275,10 @@ questions = [
     {'text': text2, 'check_answer': numbers_to_words},
     {'text': text3, 'check_answer': distance_sum},
     {'text': text4, 'check_answer': find_factorial},
-    {'text': text5, 'check_answer': find_powers}
+    {'text': text5, 'check_answer': find_powers},
+    {'text': text6, 'check_answer': geometry_question},
+    {'text': f"Solve for x: {a}x + {b} = {c}\n Give answer in foating point\nexample: 3.0", 'check_answer': algebric_question},
+    {'text': text7, 'check_answer': math_riddle}
 ]
 
 # making a 5 question list to be used in the questionnaire out of a bigger pool
