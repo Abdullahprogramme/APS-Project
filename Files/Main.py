@@ -15,12 +15,7 @@ num_to_words_list = random.sample(range(0, 27), 10)
 distance_sum_list = random.sample(range(1, 11), random.randint(6, 7))
 factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320])
 matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
-base = random.randint(5, 15)
-height = random.randint(3, 10)
-a = random.randint(2, 5)
-b = random.randint(1, 20)
-x = random.randint(6, 10)
-c = a * x + b
+find_powers_val = random.choice([4, 8, 9, 27, 32, 16])
 
 def load_question():
     global current_question, attempts_left
@@ -56,6 +51,8 @@ def evaluate_answer():
             result = current_question['check_answer'](answer, factorial_val)
         elif current_question['check_answer'] == enumerated_matrix:
             result = current_question['check_answer'](answer, matrix_list)
+        elif current_question['check_answer'] == find_powers:
+            result = current_question['check_answer'](answer, find_powers_val)
         else: result = current_question['check_answer'](answer)
         
         
@@ -203,28 +200,22 @@ def find_factorial_helper(factorial_value, current = 1, factorial = 1):
 def find_factorial(answer, factorial_val):
     factorial_value = factorial_val
     return find_factorial_helper(factorial_value) == int(answer) # comparision
-def geometry_question():
-    question = f"Find the area of a triangle with base {base} units and height {height} units."
 
-    # Calculate area of the triangle
-    correct_answer = 0.5 * base * height
-    # Display the question
-    print(question)
-    return question, correct_answer
-def algebraic_question():
-    # Generate random values for the equation ax + b = c
-    question = f"Solve for x: {a}x + {b} = {c}"
-    answer = (c - b) / a
-    return question, answer
-def math_riddle():
-    for number in range(100, 1000):
-        # Extracting digits
-        ones_digit = number % 10
-        tens_digit = (number // 10) % 10
-        hundreds_digit = number // 100
-        # Checking the conditions
-        if tens_digit == ones_digit + 5 and hundreds_digit == tens_digit - 8:
-            return number
+def find_powers(answer, number):
+    b, e = map(int, answer.strip().split())
+    # List to store representations of the number as powers
+    power_representations = []
+    # Iterate through possible bases
+    for base in range(2, int(number**0.5) + 1):
+        exponent = 2
+        # Check increasing exponents for each base
+        while base**exponent <= number:
+            # If a representation is found, add it to the list
+            if base**exponent == number:
+                power_representations.append((base, exponent))
+            exponent += 1
+    return (b, e) in power_representations
+
 # the Question functions end here
 # .......................................................................................................................
 
@@ -233,11 +224,8 @@ def math_riddle():
 text1 = "MATRIX MULTIPLICATION\n" + str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer in the form xx yy zz....."
 text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
 text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers."
-text4 = "Give the number who's factorial " + str(factorial_val) + " is"
-text5 = "Find the area of a triangle with base" + base + " units and height" + height " units."
-text6 = "Solve for x:" + a"x" "+" b "=" + c "
-text7 = "I am a three-digit number. My tens digit is five more than my ones digit and hundreds digit is eight less than my tens digit What number am I?"
-
+text4 = "Give the number whose factorial " + str(factorial_val) + " is"
+text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format:\n(base, exponent)"
 
 questions = [
     {'text': "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in format: a xx yy zz and so on",
@@ -248,11 +236,8 @@ questions = [
      'check_answer': Fibonacci},
     {'text': text2, 'check_answer': numbers_to_words},
     {'text': text3, 'check_answer': distance_sum},
-    {'text': text4, 'check_answer': find_factorial}
-    {'text': text5, 'check_answer': geometry_question}
-    {'text': text6, 'check_answer': algebraic_question}
-    {'text': text7, 'check_answer': math_riddle}
-    
+    {'text': text4, 'check_answer': find_factorial},
+    {'text': text5, 'check_answer': find_powers}
 ]
 
 # making a 5 question list to be used in the questionnaire out of a bigger pool
