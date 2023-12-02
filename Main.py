@@ -19,8 +19,7 @@ base = random.randint(5, 15)
 height = random.randint(3, 10)
 a = random.randint(2, 5)
 b = random.randint(1, 20)
-x = random.randint(6, 10)
-c = a * x + b
+c = random.randint(6, 10)
 
 def load_question():
     global current_question, attempts_left
