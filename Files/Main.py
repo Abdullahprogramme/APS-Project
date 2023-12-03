@@ -8,6 +8,7 @@ from pygame import mixer
 # declaration of any variable or lists used
 questions = []
 ActualQuestions = []
+BonusQuestions = []
 score = 0
 Final = 1
 Final_Text = "Results:\n"
@@ -22,27 +23,32 @@ a = random.randint(2, 5)
 b = random.randint(1, 20)
 c = random.randint(6, 10)
 
+# loads a new question whenever provoked
 def load_question():
     global current_question, attempts_left
-    if ActualQuestions:
+    if ActualQuestions: # check if questions left
         current_question = random.choice(ActualQuestions)
-        attempts_left = 3
-        question_label.config(text=current_question['text'])
+        if current_question["check_answer"] in BonusQuestions: attempts_left = 4 # if the question is a bonus one give an extra try
+        else: attempts_left = 3 # else only three tries
+        question_label.config(text=current_question['text']) # display the question on screen
         answer_entry.delete(0, tk.END)
         submit_button.config(state=tk.NORMAL)  # Enable the Submit button
-    else:
+    else: # else terminate loop
         messagebox.showinfo("Questionnaire Completed", "You have completed the questionnaire.")
         submit_button.config(state=tk.DISABLED)  # Disable the Submit button
         question_label.config(text=Final_Text.strip())
         #root.quit()
 
+# score updater function
 def update_score(score):
     score_label.config(text=f"Current Score: {score}")
 
-def music_loader(music_file):
+# the music loader function
+def music_loader(music_file): # takes a music file name and loads it and plays it
     mixer.music.load(music_file)
     mixer.music.play()
 
+# evaluates the answer when the button is clicked
 def evaluate_answer():
     global current_question, attempts_left, score, Final, Final_Text
 
@@ -211,16 +217,13 @@ def find_factorial(answer, factorial_val):
     return find_factorial_helper(factorial_value) == int(answer) # comparision
 
 def find_powers(answer, number):
-    b, e = map(int, answer.strip().split())
-    # List to store representations of the number as powers
-    power_representations = []
-    # Iterate through possible bases
-    for base in range(2, int(number**0.5) + 1):
+    b, e = map(int, answer.strip().split()) 
+    power_representations = [] # List to store representations of the number as powers
+    for base in range(2, int(number**0.5) + 1): # Iterate through possible bases
         exponent = 2
         # Check increasing exponents for each base
         while base**exponent <= number:
-            # If a representation is found, add it to the list
-            if base**exponent == number:
+            if base**exponent == number: # If a representation is found, add it to the list
                 power_representations.append((base, exponent))
             exponent += 1
     return (b, e) in power_representations
@@ -283,6 +286,12 @@ for i in range(5):
     ActualQuestions.append(temp)
     questions.remove(temp)
 
+# making a list of two question's functions which will get bonus try
+temp = random.sample(ActualQuestions, 2) # choosing two random questions
+for question in temp: # iterating in them to fetch the function name only
+    BonusQuestions.append(question['check_answer'])
+
+# welcome message function
 def show_welcome_message():
     music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3")
     question_label.config(text="Welcome to the Python Questionnaire!")
