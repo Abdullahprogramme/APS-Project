@@ -4,6 +4,7 @@ from tkinter import messagebox
 import random
 import numpy as np
 from pygame import mixer
+import math 
 
 # declaration of any variable or lists used
 questions = []
@@ -22,6 +23,7 @@ height = random.randint(3, 10)
 a = random.randint(2, 5)
 b = random.randint(1, 20)
 c = random.randint(6, 10)
+Length_lst = random.sample(range(5, 11), 2)
 
 # loads a new question whenever provoked
 def load_question():
@@ -68,6 +70,8 @@ def evaluate_answer():
             result = current_question['check_answer'](answer, base, height)
         elif current_question['check_answer'] == algebric_question:
             result = current_question['check_answer'](answer, a, b, c)
+        elif current_question['check_answer'] == Length:
+            result = current_question['check_answer'](answer, Length_lst)
         else: result = current_question['check_answer'](answer)
         
         
@@ -251,33 +255,43 @@ def math_riddle(answer):
             lst.append(number) # append to list if conditions are met True
     return correct_answer in lst # comparision
 
+def Length(answer, Length_lst):
+    distance = float(answer) # converting the answer to floating point
+    y1, y2 = map(int, Length_lst) # mapping the y coordinates
+    actual_distance = float(math.sqrt(math.pow(2 - 3, 2) + math.pow(y1 - y2, 2))) # finding the distance using math library
+    return round(actual_distance, 1) == distance # comparision
+
 # the Question functions end here
 # ....................................................................................................................... #
 
 # questions list
 # contains all the questions and their functions in a dictionary
-text1 = "MATRIX MULTIPLICATION\n" + str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer in the form xx yy zz....."
+text1 = "MATRIX MULTIPLICATION\n" + str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer in the form => x y z....."
 text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
 text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers."
 text4 = "Give the number whose factorial " + str(factorial_val) + " is"
-text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format:\n(base, exponent)"
+text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format =>\nbase exponent"
 text6  = f"Find the area of a triangle with\nbase {base} units and height {height} units.\nGive answer in floating point\nexample: 3.0 rounded to 1 decimal place"
 text7 = "I am a three-digit number.\n My tens digit is five more than my ones digit\n and hundreds digit is eight less\n than my tens digit What number am I?"
+text8  =f"Point 1 coordinates(2, {Length_lst[0]})\nPoint 2 coordinates(3, {Length_lst[1]})\n Find the distance between them\nexample: 3.0 rounded to 1 decimal place"
+text9 = f"Solve for x:\n{a}x + {b} = {c}\n Give answer in foating point\nexample: 3.0 rounded to 1 decimal place"
+text10 = "Enter a number 'N' in range (1 - 10)\nand provide it's sequence of Fibonacci number\nto the Nth index in form => N x y z..."
+text11 = "Enter a word which is palindrome, capitalized and odd in length"
+text12 = "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in form => a x y z and so on"
 
 questions = [
-    {'text': "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in format: a xx yy zz and so on",
-     'check_answer': Prime},
+    {'text': text12, 'check_answer': Prime},
     {'text': text1, 'check_answer': enumerated_matrix},
-    {'text': "Enter a word which is palindrome, capitalized and odd in length", 'check_answer': PalinCapital},
-    {'text': "Enter a number 'N' in range (1 - 10)\nand provide it's sequence of Fibonacci number\nto the Nth index in form N xx yy zz....",
-     'check_answer': Fibonacci},
+    {'text': text11, 'check_answer': PalinCapital},
+    {'text': text10, 'check_answer': Fibonacci},
     {'text': text2, 'check_answer': numbers_to_words},
     {'text': text3, 'check_answer': distance_sum},
     {'text': text4, 'check_answer': find_factorial},
     {'text': text5, 'check_answer': find_powers},
     {'text': text6, 'check_answer': geometry_question},
-    {'text': f"Solve for x:\n{a}x + {b} = {c}\n Give answer in foating point\nexample: 3.0 rounded to 1 decimal place", 'check_answer': algebric_question},
-    {'text': text7, 'check_answer': math_riddle}
+    {'text': text9, 'check_answer': algebric_question},
+    {'text': text7, 'check_answer': math_riddle},
+    {'text': text8, 'check_answer': Length}
 ]
 
 # making a 5 question list to be used in the questionnaire out of a bigger pool
