@@ -13,11 +13,11 @@ BonusQuestions = []      # for use
 score = 0 # score variable
 Final = 1                   # answer sheet variable
 Final_Text = "Results:\n"   # its text
-num_to_words_list = random.sample(range(0, 27), 10)
-distance_sum_list = random.sample(range(1, 11), random.randint(6, 7))
-factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320])
-matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
-find_powers_val = random.choice([4, 8, 9, 27, 36, 16, 81, 64])
+num_to_words_list = random.sample(range(0, 27), 10) # random list of 10 numbers for decoding function
+distance_sum_list = random.sample(range(1, 11), random.randint(6, 7)) # random list of 6 or 7 in length for distance function
+factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320]) # random number for factorial function
+matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)] # random 2d list for matrix
+find_powers_val = random.choice([4, 8, 9, 27, 36, 16, 81, 64]) # random number for power function
 base = random.randint(5, 15) # ''' base and height '''
 height = random.randint(3, 10) # ''' for geometery question '''
 a = random.randint(2, 5) # ''' three random constants '''
@@ -93,10 +93,10 @@ def evaluate_answer():
         else:
             attempts_left -= 1
             if attempts_left > 0:
-                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\failure-drum-sound-effect-2-7184.mp3")
+                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\failure-drum-sound-effect-2-7184.mp3") # copy the path for this file on your pc
                 messagebox.showwarning("Incorrect", f"Your answer is incorrect. {attempts_left} attempts left.")
             else:
-                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\fiasco-154915.mp3")
+                music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\fiasco-154915.mp3") # copy the path for this file on your pc
                 messagebox.showerror("Out of Attempts", "You have run out of attempts. Moving to the next question.")
                 ActualQuestions.remove(current_question)
                 Final_Text += f"Question {Final} was incorrect\n"
@@ -245,16 +245,14 @@ def algebric_question(answer, a ,b ,c):
     correct_answer = (c - b) / a # solving for x
     return number == round(correct_answer, 1) # comparision
 
-def math_riddle(answer):
+def math_riddle(answer): # sample answer list: [194, 285, 376, 467, 558, 649, 740, 831, 922]
     correct_answer = int(answer)
     lst = []
     for number in range(100, 1000):
-        # Extracting digits
-        ones_digit = number % 10
-        tens_digit = (number // 10) % 10
-        hundreds_digit = number // 100
-        # Checking the conditions
-        if tens_digit == ones_digit + 5 and hundreds_digit == tens_digit - 8:
+        ones_digit = number % 10          # Extracting
+        tens_digit = (number // 10) % 10  # the
+        hundreds_digit = number // 100    # digits
+        if tens_digit == ones_digit + 5 and hundreds_digit == tens_digit - 8: # Checking the conditions
             lst.append(number) # append to list if conditions are met True
     return correct_answer in lst # comparision
 
@@ -310,7 +308,7 @@ for question in temp: # iterating in them to fetch the function name only
 
 # welcome message function
 def show_welcome_message():
-    music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3")
+    music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3") # copy the path for this file on your pc
     question_label.config(text="Welcome to the Python Questionnaire!")
     root.after(5000, load_question)  # Schedule the load_question function after 5000 milliseconds (5 seconds)
 
