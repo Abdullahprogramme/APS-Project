@@ -7,23 +7,25 @@ from pygame import mixer
 import math 
 
 # declaration of any variable or lists used
-questions = []
-ActualQuestions = []
-BonusQuestions = []
-score = 0
-Final = 1
-Final_Text = "Results:\n"
+questions = []           # empty 
+ActualQuestions = []     # lists 
+BonusQuestions = []      # for use 
+score = 0 # score variable
+Final = 1                   # answer sheet variable
+Final_Text = "Results:\n"   # its text
 num_to_words_list = random.sample(range(0, 27), 10)
 distance_sum_list = random.sample(range(1, 11), random.randint(6, 7))
 factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320])
 matrix_list = [[random.randint(1, 10) for _ in range(3)] for _ in range(3)]
 find_powers_val = random.choice([4, 8, 9, 27, 36, 16, 81, 64])
-base = random.randint(5, 15)
-height = random.randint(3, 10)
-a = random.randint(2, 5)
-b = random.randint(1, 20)
-c = random.randint(6, 10)
-Length_lst = random.sample(range(5, 11), 2)
+base = random.randint(5, 15) # ''' base and height '''
+height = random.randint(3, 10) # ''' for geometery question '''
+a = random.randint(2, 5) # ''' three random constants '''
+b = random.randint(1, 20) #  '''  for the algebra '''
+c = random.randint(6, 10) # '''  question '''
+Length_lst = random.sample(range(5, 11), 2) # random list for Length question
+Prime_number = random.randint(1, 10) # random value for Prime question
+Fibonacci_number = random.randint(2, 10) # random value for Fibonacci question
 
 # loads a new question whenever provoked
 def load_question():
@@ -72,6 +74,10 @@ def evaluate_answer():
             result = current_question['check_answer'](answer, a, b, c)
         elif current_question['check_answer'] == Length:
             result = current_question['check_answer'](answer, Length_lst)
+        elif current_question['check_answer'] == Prime:
+            result = current_question['check_answer'](answer, Prime_number)
+        elif current_question['check_answer'] == Fibonacci:
+            result = current_question['check_answer'](answer, Fibonacci_number)
         else: result = current_question['check_answer'](answer)
         
         
@@ -103,11 +109,9 @@ def evaluate_answer():
         answer_entry.delete(0, tk.END)
 
 # Questions functions
-def Prime(answer):
+def Prime(answer, Prime_number):
     try:
-        number = answer.strip()
-        numbers = list(number.split())
-        N, numbers = int(numbers[0]), numbers[1:] 
+        numbers, N = list(answer.split(" ")), Prime_number
         if numbers == []: return False
         new = []
         count = 2
@@ -177,10 +181,9 @@ def Fibonacci_helper(N):
             lst.append(lst[-2] + lst[-1]) # appends the sum of last two numbers in lst
             return lst
             
-def Fibonacci(answer):
-    N = int(answer.strip()[0])
-    userAnswer = answer[1:].strip()
-    userList = [int(i) for i in userAnswer.split(" ")] # making a list of all integers the user provided
+def Fibonacci(answer, Fibonacci_number):
+    N = Fibonacci_number
+    userList = [int(i) for i in answer.split(" ")] # making a list of all integers the user provided
     if Fibonacci_helper(N) == userList: return True # if comparision true 
     else: return False # if comparision false
 
@@ -268,16 +271,16 @@ def Length(answer, Length_lst):
 # contains all the questions and their functions in a dictionary
 text1 = "MATRIX MULTIPLICATION\n" + str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer in the form => x y z....."
 text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
-text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of all odd\nplaced numbers and even placed numbers\nand multiply with last number\nelse\nFind absolute difference of all odd placed\nnumbers and even placed numbers."
+text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of each odd\nand even placed number except\nlast number and multiply with last number\nelse\nFind absolute difference of each odd placed\neven placed numbers"
 text4 = "Give the number whose factorial " + str(factorial_val) + " is"
 text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format =>\nbase exponent"
 text6  = f"Find the area of a triangle with\nbase {base} units and height {height} units.\nGive answer in floating point\nexample: 3.0 rounded to 1 decimal place"
 text7 = "I am a three-digit number.\n My tens digit is five more than my ones digit\n and hundreds digit is eight less\n than my tens digit What number am I?"
 text8  =f"Point 1 coordinates(2, {Length_lst[0]})\nPoint 2 coordinates(3, {Length_lst[1]})\n Find the distance between them\nexample: 3.0 rounded to 1 decimal place"
 text9 = f"Solve for x:\n{a}x + {b} = {c}\n Give answer in foating point\nexample: 3.0 rounded to 1 decimal place"
-text10 = "Enter a number 'N' in range (1 - 10)\nand provide it's sequence of Fibonacci number\nto the Nth index in form => N x y z..."
+text10 = f"Provide a sequence of Fibonacci number\nto the {Fibonacci_number}th index in form => N x y z...\n0 and 1 are starting two numbers"
 text11 = "Enter a word which is palindrome, capitalized and odd in length"
-text12 = "Enter a number 'a' in range(1 - 10) and\n enter all prime factors within that number\n in form => a x y z and so on"
+text12 = f"Enter all prime numbers below {Prime_number}\n in form => x y z and so on"
 
 questions = [
     {'text': text12, 'check_answer': Prime},
