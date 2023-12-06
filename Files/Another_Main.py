@@ -6,14 +6,16 @@ import numpy as np
 from pygame import mixer
 import math 
 
-def Initializer(): # The initializer function which initializes all variables. constants and lists
+def Initializer(): # The initializer function which initializes all variables, constants and lists
     # declaration of any variable or lists used
     questions = []           # ''' empty 
     ActualQuestions = []     #     lists 
     BonusQuestions = []      #     for use '''
-    score = 0 # score variable
-    Final = 1                   # ''' answer sheet variable
-    Final_Text = "Results:\n"   #     its text '''
+    state = {
+        'score': 0, # score variable
+        'Final': 1,                   # ''' answer sheet variable
+        'Final_Text':  "Results:\n"   #     its text '''
+    }
     num_to_words_list = random.sample(range(0, 27), 10) # random list of 10 numbers for decoding function
     distance_sum_list = random.sample(range(1, 11), random.randint(6, 7)) # random list of 6 or 7 in length for distance function
     factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320]) # random number for factorial function
@@ -69,12 +71,12 @@ def Initializer(): # The initializer function which initializes all variables. c
     for question in temp: # iterating in them to fetch the function name only
         BonusQuestions.append(question['check_answer'])
 
-    return ActualQuestions, BonusQuestions, score, Final, Final_Text, num_to_words_list, distance_sum_list \
+    return ActualQuestions, BonusQuestions, state, num_to_words_list, distance_sum_list \
             , factorial_val, matrix_list, find_powers_val, base, height, a, b, c, Length_lst, Prime_number, Fibonacci_number  
 
 # loads a new question whenever provoked
-def load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button):
-    global current_question, attempts_left, Final_Text
+def load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button, state):
+    global current_question, attempts_left
     if ActualQuestions: # check if questions left
         current_question = random.choice(ActualQuestions)
         if current_question["check_answer"] in BonusQuestions: attempts_left = 4 # if the question is a bonus one give an extra try
@@ -85,12 +87,12 @@ def load_question(ActualQuestions, BonusQuestions, question_label, answer_entry,
     else: # else terminate loop
         messagebox.showinfo("Questionnaire Completed", "You have completed the questionnaire.")
         submit_button.config(state=tk.DISABLED)  # Disable the Submit button
-        question_label.config(text=Final_Text.strip())
+        question_label.config(text=state['Final_Text'].strip())
         #root.quit()
 
 # score updater function
-def update_score(score, score_label):
-    score_label.config(text=f"Current Score: {score}")
+def update_score(state, score_label):
+    score_label.config(text=f"Current Score: {state['score']}")
 
 # the music loader function
 def music_loader(music_file): # takes a music file name and loads it and plays it
@@ -100,8 +102,8 @@ def music_loader(music_file): # takes a music file name and loads it and plays i
 # evaluates the answer when the button is clicked
 def evaluate_answer(ActualQuestions, BonusQuestions, num_to_words_list, distance_sum_list,  \
             factorial_val, matrix_list, find_powers_val, base, height, a, b, c, Length_lst, Prime_number, \
-            Fibonacci_number, question_label, answer_entry, submit_button, score_label):
-    global current_question, attempts_left, score, Final, Final_Text
+            Fibonacci_number, question_label, answer_entry, submit_button, score_label, state):
+    global current_question, attempts_left
 
     try:
         answer = answer_entry.get()
@@ -132,11 +134,11 @@ def evaluate_answer(ActualQuestions, BonusQuestions, num_to_words_list, distance
             music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\correct-156911.mp3") # copy the path for this file on your pc
             messagebox.showinfo("Correct", "Your answer is correct!")
             ActualQuestions.remove(current_question)
-            score += 1
-            update_score(score, score_label)
-            Final_Text += f"Question {Final} was correct\n"
-            Final += 1
-            load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button)
+            state['score'] += 1
+            update_score(state, score_label)
+            state['Final_Text'] += f"Question {state['Final']} was correct\n"
+            state['Final'] += 1
+            load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button, state)
         else:
             attempts_left -= 1
             if attempts_left > 0:
@@ -146,9 +148,9 @@ def evaluate_answer(ActualQuestions, BonusQuestions, num_to_words_list, distance
                 music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\\fiasco-154915.mp3") # copy the path for this file on your pc
                 messagebox.showerror("Out of Attempts", "You have run out of attempts. Moving to the next question.")
                 ActualQuestions.remove(current_question)
-                Final_Text += f"Question {Final} was incorrect\n"
-                Final += 1
-                load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button)
+                state['Final_Text'] += f"Question {state['Final']} was incorrect\n"
+                state['Final'] += 1
+                load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button, state)
             answer_entry.delete(0, tk.END)
 
     except ValueError:
@@ -313,14 +315,13 @@ def Length(answer, Length_lst):
 # ....................................................................................................................... #
 
 # welcome message function
-def show_welcome_message(ActualQuestions, BonusQuestions, question_label, root, answer_entry, submit_button):
+def show_welcome_message(ActualQuestions, BonusQuestions, question_label, root, answer_entry, submit_button, state):
     music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3") # copy the path for this file on your pc
     question_label.config(text="Welcome to the Python Questionnaire!")
-    root.after(5000, lambda: load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button))  # Schedule the load_question function after 5000 milliseconds (5 seconds)
+    root.after(5000, lambda: load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button, state))  # Schedule the load_question function after 5000 milliseconds (5 seconds)
 
 def main():
-    global score, Final, Final_Text
-    ActualQuestions, BonusQuestions, score, Final, Final_Text, num_to_words_list, distance_sum_list \
+    ActualQuestions, BonusQuestions, state,  num_to_words_list, distance_sum_list \
             , factorial_val, matrix_list, find_powers_val, base, height, a, b, c, Length_lst, Prime_number, Fibonacci_number = Initializer()
     
     # GUI initialization
@@ -357,14 +358,14 @@ def main():
     submit_button = tk.Button(answer_frame, text="Submit", command=lambda: evaluate_answer(ActualQuestions,\
             BonusQuestions, num_to_words_list, distance_sum_list,  \
             factorial_val, matrix_list, find_powers_val, base, height, a, b, c, Length_lst, Prime_number, \
-            Fibonacci_number, question_label, answer_entry, submit_button, score_label), bg="gray", font=("Helvetica", 12))
+            Fibonacci_number, question_label, answer_entry, submit_button, score_label, state), bg="gray", font=("Helvetica", 12))
     submit_button.place(relx=0.7, relwidth=0.3, relheight=1)
 
     mixer.init() # music initilizer
-      
+
     # Load the initial question
     # first show the welcome message
-    show_welcome_message(ActualQuestions, BonusQuestions, question_label, root, answer_entry, submit_button) # welcome message shower
+    show_welcome_message(ActualQuestions, BonusQuestions, question_label, root, answer_entry, submit_button, state) # welcome message shower
     root.mainloop() # the main loop iterator
 
 if __name__ == "__main__":
