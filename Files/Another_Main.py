@@ -6,14 +6,14 @@ import numpy as np
 from pygame import mixer
 import math 
 
-def Initializer():
+def Initializer(): # The initializer function which initializes all variables. constants and lists
     # declaration of any variable or lists used
-    questions = []           # empty 
-    ActualQuestions = []     # lists 
-    BonusQuestions = []      # for use 
+    questions = []           # ''' empty 
+    ActualQuestions = []     #     lists 
+    BonusQuestions = []      #     for use '''
     score = 0 # score variable
-    Final = 1                   # answer sheet variable
-    Final_Text = "Results:\n"   # its text
+    Final = 1                   # ''' answer sheet variable
+    Final_Text = "Results:\n"   #     its text '''
     num_to_words_list = random.sample(range(0, 27), 10) # random list of 10 numbers for decoding function
     distance_sum_list = random.sample(range(1, 11), random.randint(6, 7)) # random list of 6 or 7 in length for distance function
     factorial_val = random.choice([2, 6, 24, 120, 720, 5040, 40320]) # random number for factorial function
@@ -21,9 +21,9 @@ def Initializer():
     find_powers_val = random.choice([4, 8, 9, 27, 36, 16, 81, 64]) # random number for power function
     base = random.randint(5, 15) # ''' base and height '''
     height = random.randint(3, 10) # ''' for geometery question '''
-    a = random.randint(2, 5) # ''' three random constants '''
-    b = random.randint(1, 20) #  '''  for the algebra '''
-    c = random.randint(6, 10) # '''  question '''
+    a = random.randint(2, 5) # ''' three random constants
+    b = random.randint(1, 20) #    for the algebra 
+    c = random.randint(6, 10) #    question '''
     Length_lst = random.sample(range(5, 11), 2) # random list for Length question
     Prime_number = random.randint(3, 10) # random value for Prime question
     Fibonacci_number = random.randint(2, 10) # random value for Fibonacci question
@@ -43,7 +43,7 @@ def Initializer():
     text11 = "Enter a word which is palindrome, capitalized and odd in length"
     text12 = f"Enter all prime numbers below {Prime_number}\n in form => x y z... and so on"
 
-    questions = [
+    questions = [ # a list containing all the questions dictionaries with two keys.
         {'text': text12, 'check_answer': Prime},
         {'text': text1, 'check_answer': enumerated_matrix},
         {'text': text11, 'check_answer': PalinCapital},
@@ -316,11 +316,8 @@ def Length(answer, Length_lst):
 def show_welcome_message(ActualQuestions, BonusQuestions, question_label, root, answer_entry, submit_button):
     music_loader("C:\Personal Files\OneDrive - Habib University\Python\APS Project files\interface-welcome-131917.mp3") # copy the path for this file on your pc
     question_label.config(text="Welcome to the Python Questionnaire!")
-    root.after(5000, load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button))  # Schedule the load_question function after 5000 milliseconds (5 seconds)
+    root.after(5000, lambda: load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button))  # Schedule the load_question function after 5000 milliseconds (5 seconds)
 
-
-# Load the initial question
-# first show the welcome message
 def main():
     global score, Final, Final_Text
     ActualQuestions, BonusQuestions, score, Final, Final_Text, num_to_words_list, distance_sum_list \
@@ -365,6 +362,8 @@ def main():
 
     mixer.init() # music initilizer
       
+    # Load the initial question
+    # first show the welcome message
     show_welcome_message(ActualQuestions, BonusQuestions, question_label, root, answer_entry, submit_button) # welcome message shower
     root.mainloop() # the main loop iterator
 
