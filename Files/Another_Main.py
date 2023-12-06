@@ -33,17 +33,17 @@ def Initializer(): # The initializer function which initializes all variables, c
     # questions list
     # contains all the questions and their functions in a dictionary
     text1 = "MATRIX MULTIPLICATION\n" + str(matrix_list) + " *" + "\n[[9, 8, 7], [6, 5, 4], [3, 2, 1]] is?\nEnter your answer in the form => x y z....."
-    text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space"
-    text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of each odd\nand even placed number except\nlast number and multiply with last number\nelse\nFind absolute difference of each odd placed\neven placed numbers"
-    text4 = "Give the number whose factorial is " + str(factorial_val)
-    text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format =>\n(base exponent)"
-    text6  = f"Find the area of a triangle with\nbase {base} units and height {height} units.\nGive answer in floating point\nexample: 3.0 rounded to 1 decimal place"
+    text2 = "Decode the following numbers into a word\n" + str(num_to_words_list) + "\nnumbers 1 to 26 represent a digit\n0 means space."
+    text3 = "numbers = "  + str(distance_sum_list) + "\nIF ODD Lengthed, Find sum of absolute difference of each odd\nand even placed number except\nlast number and multiply with last number\nelse\nFind absolute difference of each odd placed\neven placed numbers."
+    text4 = "What is the number whose factorial is " + str(factorial_val) + '?'
+    text5 = "Write any combination of base and exponent\n for the number: " + str(find_powers_val) + " in format =>\n(base exponent)."
+    text6  = f"Find the area of a triangle with\nbase {base} units and height {height} units.\nGive answer in floating point\nexample: 3.0 rounded to 1 decimal place."
     text7 = "I am a three-digit number.\n My tens digit is five more than my ones digit\n and hundreds digit is eight less\n than my tens digit What number am I?"
-    text8  =f"Point 1 coordinates(2, {Length_lst[0]})\nPoint 2 coordinates(3, {Length_lst[1]})\n Find the distance between them\nexample: 3.0 rounded to 1 decimal place"
-    text9 = f"Solve for x:\n{a}x + {b} = {c}\n Give answer in decimal number\nexample: 3.0 rounded to 1 decimal place"
-    text10 = f"Provide a sequence of Fibonacci number\nto the {Fibonacci_number}th index in form => N x y z...\n0 and 1 are two starting numbers"
-    text11 = "Enter a word which is palindrome, capitalized and odd in length"
-    text12 = f"Enter all prime numbers below {Prime_number}\n in form => x y z... and so on"
+    text8  =f"Point 1 coordinates(2, {Length_lst[0]})\nPoint 2 coordinates(3, {Length_lst[1]})\n Find the distance between them\nexample: 3.0 rounded to 1 decimal place."
+    text9 = f"Solve for x:\n{a}x + {b} = {c}\n Give answer in decimal number\nexample: 3.0 rounded to 1 decimal place."
+    text10 = f"Provide a sequence of Fibonacci number\nto the {Fibonacci_number}th index in form => N x y z...\n0 and 1 are two starting numbers."
+    text11 = "Which word is palindrome, capitalized and odd in length?"
+    text12 = f"Enter all prime numbers below {Prime_number}\n in form => x y z... and so on."
 
     questions = [ # a list containing all the questions dictionaries with two keys.
         {'text': text12, 'check_answer': Prime},
