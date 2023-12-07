@@ -1,10 +1,10 @@
 # importing of libraries
-import tkinter as tk
-from tkinter import messagebox
-import random
-import numpy as np
-from pygame import mixer
-import math 
+import tkinter as tk # for the GUI
+from tkinter import messagebox # for the message box to appear for errors etc.
+import random # for every randome list, variables we made
+import numpy as np # for specifically the matrix questions
+from pygame import mixer # for the music behind the questionnaire
+import math # for the Length function to calculate distance
 
 def Initializer(): # The initializer function which initializes all variables, constants and lists
     # declaration of any variable or lists used
@@ -88,6 +88,7 @@ def load_question(ActualQuestions, BonusQuestions, question_label, answer_entry,
         messagebox.showinfo("Questionnaire Completed", "You have completed the questionnaire.")
         submit_button.config(state=tk.DISABLED)  # Disable the Submit button
         question_label.config(text=state['Final_Text'].strip())
+        mixer.quit()
         #root.quit()
 
 # score updater function
