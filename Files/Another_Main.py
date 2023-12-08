@@ -162,7 +162,7 @@ def evaluate_answer(ActualQuestions, BonusQuestions, num_to_words_list, distance
 # Questions functions
 def Prime(answer, Prime_number):
     try:
-        numbers, N = list(answer.split(" ")), Prime_number
+        numbers, N = list(answer.strip().split(" ")), Prime_number
         if numbers == []: return False
         new = []
         count = 2
@@ -234,7 +234,7 @@ def Fibonacci_helper(N):
             
 def Fibonacci(answer, Fibonacci_number):
     N = Fibonacci_number
-    userList = [int(i) for i in answer.split(" ")] # making a list of all integers the user provided
+    userList = [int(i) for i in answer.strip().split(" ")] # making a list of all integers the user provided
     if Fibonacci_helper(N) == userList: return True # if comparision true 
     else: return False # if comparision false
 
@@ -246,7 +246,7 @@ def numbers_to_words(answer, num_to_words_list):
             resul += " "  # space if the number is zero
         elif 1 <= number <= 26:
             resul += chr(ord('a') + number - 1)  # this line will convert to alphabet letter
-    return resul == answer.lower()
+    return resul == answer.strip().lower()
 
 def distance_sum(answer, distance_list):
     lst = distance_list
