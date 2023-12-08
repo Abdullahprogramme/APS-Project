@@ -75,6 +75,7 @@ def Initializer(): # The initializer function which initializes all variables, c
             , factorial_val, matrix_list, find_powers_val, base, height, a, b, c, Length_lst, Prime_number, Fibonacci_number  
 
 # loads a new question whenever provoked
+# and quits, by showing the results when there is no question left
 def load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button, state):
     global current_question, attempts_left
     if ActualQuestions: # check if questions left
@@ -89,7 +90,7 @@ def load_question(ActualQuestions, BonusQuestions, question_label, answer_entry,
         submit_button.config(state=tk.DISABLED)  # Disable the Submit button
         question_label.config(text=state['Final_Text'].strip())
         mixer.quit()
-        #root.quit()
+        #root.quit() # this is commented since it removes the screen terminating the program
 
 # score updater function
 def update_score(state, score_label):
@@ -154,7 +155,7 @@ def evaluate_answer(ActualQuestions, BonusQuestions, num_to_words_list, distance
                 load_question(ActualQuestions, BonusQuestions, question_label, answer_entry, submit_button, state)
             answer_entry.delete(0, tk.END)
 
-    except ValueError:
+    except ValueError: # throws and error if an invalid data type is entered
         messagebox.showerror("Invalid Input", "Invalid data type. Please enter the correct data type.")
         answer_entry.delete(0, tk.END)
 
@@ -370,4 +371,4 @@ def main():
     root.mainloop() # the main loop iterator
 
 if __name__ == "__main__":
-    main()
+    main() # runs the main program
